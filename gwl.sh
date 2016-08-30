@@ -16,21 +16,28 @@ function recognize_and_run(){
 
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-  echo "Usage: `basename $0` -f [file-name]"
+  echo "Usage: `basename $0` [file-name]"
+  echo "Usage: `basename $0` new [file-name] [new-entry]"  
   exit 1
 fi
 
-if [[ "$1" == "-f"  && -e "$2" ]]; then
-	DATA="$2"
-	type="file"
-	
+#Adding new entry
+if [ $1 = "new" ] ; then
+	echo "${*:3}" >> "$2"
+	echo \"${*:3}\" added to \'$2\'
+exit 0
 fi
 
-if [ $(which "$2") ]; then
-	DATA="$2"
+
+if [ $(which "$1") ]; then
+	DATA="$1"
 	type="program"
 fi
-	
+
+if [[ -e "$1" ]]; then
+	DATA="$1"
+	type="file"
+fi
 
 
 
